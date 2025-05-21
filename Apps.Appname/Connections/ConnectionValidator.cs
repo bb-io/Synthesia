@@ -13,9 +13,9 @@ public class ConnectionValidator: IConnectionValidator
     {
         try
         {
-            var client = new Client(authenticationCredentialsProviders);
+            var client = new SynthesiaClient(authenticationCredentialsProviders);
 
-            await client.ExecuteWithErrorHandling(new RestRequest());
+            await client.ExecuteWithErrorHandling(new RestRequest("/videos",Method.Get));
 
             return new()
             {

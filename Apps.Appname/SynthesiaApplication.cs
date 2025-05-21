@@ -3,7 +3,7 @@ using Blackbird.Applications.Sdk.Common.Metadata;
 
 namespace Apps.Appname;
 
-public class Application : IApplication, ICategoryProvider
+public class SynthesiaApplication : IApplication, ICategoryProvider
 {
     public IEnumerable<ApplicationCategory> Categories
     {
