@@ -28,7 +28,9 @@ To use Synthesia API, start by creating your API key:
 - **Create video from template** Creates a new video from template
 
 ## Events
-Comming soon
+
+- **On video completed** triggers on any video completed
+- **On video failed** triggers on any video failed
 
 ## Feedback
 
