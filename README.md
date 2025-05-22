@@ -17,6 +17,8 @@ To use Synthesia API, start by creating your API key:
 - Click on Add to add a new Synthesia API key.
 - Copy this key thanks to the 3-dot button on the right side of your API key.
 
+## Actions
+
 ### Video
 
 - **Search videos** Searches videos
