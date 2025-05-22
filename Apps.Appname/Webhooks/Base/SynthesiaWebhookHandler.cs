@@ -26,7 +26,7 @@ namespace Apps.Synthesia.Webhooks.Base
                 url = values["payloadUrl"]
             };
 
-            var request = new RestRequest("/v2/webhooks", Method.Post)
+            var request = new RestRequest("/webhooks", Method.Post)
                 .AddHeader("accept", "application/json")
                 .AddJsonBody(requestBody);
 
@@ -42,7 +42,7 @@ namespace Apps.Synthesia.Webhooks.Base
             if (webhookToDelete == null)
                 return;
 
-            var request = new RestRequest($"/v2/webhooks/{webhookToDelete.id}", Method.Delete)
+            var request = new RestRequest($"/webhooks/{webhookToDelete.id}", Method.Delete)
                 .AddHeader("accept", "application/json");
 
             await Client.ExecuteAsync(request);
@@ -50,7 +50,7 @@ namespace Apps.Synthesia.Webhooks.Base
 
         private async Task<List<WebhookListResponse>> GetAllWebhooks()
         {
-            var request = new RestRequest("/v2/webhooks", Method.Get)
+            var request = new RestRequest("/webhooks", Method.Get)
                 .AddHeader("accept", "application/json");
 
             var response = await Client.ExecuteAsync(request);
