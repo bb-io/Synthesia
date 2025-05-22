@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Blackbird.Applications.Sdk.Common;
+using Newtonsoft.Json;
 
 namespace Apps.Synthesia.Webhooks.Models
 {
@@ -14,12 +15,14 @@ namespace Apps.Synthesia.Webhooks.Models
     public class VideoData
     {
         [JsonProperty("callbackId")]
+        [Display("Callback ID")]
         public string CallbackId { get; set; }
 
         [JsonProperty("captions")]
         public Captions Captions { get; set; }
 
         [JsonProperty("createdAt")]
+        [Display("Created at")]
         public long CreatedAt { get; set; }
 
         [JsonProperty("description")]
@@ -35,6 +38,7 @@ namespace Apps.Synthesia.Webhooks.Models
         public string Id { get; set; }
 
         [JsonProperty("lastUpdatedAt")]
+        [Display("Last updated at")]
         public long LastUpdatedAt { get; set; }
 
         [JsonProperty("status")]

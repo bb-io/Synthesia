@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Blackbird.Applications.Sdk.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,15 @@ namespace Apps.Synthesia.Models
     public class CreateVideoResponse
     {
         [JsonProperty("callbackId")]
+        [Display("Callback ID")]
         public string CallbackId { get; set; }
 
         [JsonProperty("createdAt")]
+        [Display("Created at")]
         public long CreatedAt { get; set; }
 
         [JsonProperty("ctaSettings")]
+        [Display("CTA settings")]
         public CtaSettings CtaSettings { get; set; }
 
         [JsonProperty("description")]
@@ -25,6 +29,7 @@ namespace Apps.Synthesia.Models
         public string Id { get; set; }
 
         [JsonProperty("lastUpdatedAt")]
+        [Display("Last updated at")]
         public long LastUpdatedAt { get; set; }
 
         [JsonProperty("status")]

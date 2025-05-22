@@ -5,9 +5,9 @@ namespace Apps.Appname.Models
     public class LimitOptionsRequest
     {
         [Display("Limit")]
-        public int? Limit { get; set; } = 20;
+        public int? Limit { get; set; }
 
         [Display("Offset")]
-        public int? Offset { get; set; } = 0;
+        public int? Offset { get; set; } 
     }
 }

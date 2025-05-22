@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Blackbird.Applications.Sdk.Common;
+using Newtonsoft.Json;
+
 
 namespace Apps.Synthesia.Webhooks.Models
 {
@@ -26,6 +28,7 @@ namespace Apps.Synthesia.Webhooks.Models
         public string Status { get; set; }
 
         [JsonProperty("createdAt")]
+        [Display("Created at")]
         public long CreatedAt { get; set; }
 
         [JsonProperty("message")]

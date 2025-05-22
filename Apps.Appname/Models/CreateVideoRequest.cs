@@ -21,7 +21,7 @@ namespace Apps.Synthesia.Models
         [Display("Visibility")]
         public string Visibility { get; set; }
 
-        [Display("Aspect Ratio")]
+        [Display("Aspect ratio")]
         public string AspectRatio { get; set; } 
 
         [Display("Script texts")]

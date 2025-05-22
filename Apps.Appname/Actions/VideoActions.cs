@@ -35,7 +35,7 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
 
 
     [Action("Get XLIFF content of video", Description = "Downloads XLIFF content file of video")]
-    public async Task<DownloadXliffResponse> GetVideoXliff([ActionParameter] SearchVideoRequest request)
+    public async Task<DownloadXliffResponse> GetVideoXliff([ActionParameter] SearchXliffVideoRequest request)
     {
         var restRequest = new RestRequest($"/videos/{request.VideoId}/xliff", Method.Get);
         restRequest.AddQueryParameter("xliffVersion", "1.2");
@@ -57,7 +57,7 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
 
 
     [Action("Download video", Description = "Downloads video by its ID")]
-    public async Task<FileResponse> DownloadVideo([ActionParameter] SearchVideoRequest request)
+    public async Task<FileResponse> DownloadVideo([ActionParameter] SearchXliffVideoRequest request)
     {
 
         var restRequest = new RestRequest($"/videos/{request.VideoId}", Method.Get);
@@ -82,7 +82,7 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
 
 
     [Action("Get video captions", Description = "Gets video captions by it`s ID")]
-    public async Task<FileResponse> GetVideoCaptions([ActionParameter] SearchVideoRequest request,
+    public async Task<FileResponse> GetVideoCaptions([ActionParameter] SearchXliffVideoRequest request,
         [ActionParameter] CaptionFormatRequest format)
     {
         var metaReq = new RestRequest($"/videos/{request.VideoId}", Method.Get);

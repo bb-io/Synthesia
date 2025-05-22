@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Blackbird.Applications.Sdk.Common;
+using Newtonsoft.Json;
 
 namespace Apps.Appname.Models
 {
@@ -14,6 +15,7 @@ namespace Apps.Appname.Models
         public Captions Captions { get; set; }
 
         [JsonProperty("createdAt")]
+        [Display("Created at")]
         public long CreatedAt { get; set; }
 
         [JsonProperty("description")]
@@ -29,6 +31,7 @@ namespace Apps.Appname.Models
         public string Id { get; set; }
 
         [JsonProperty("lastUpdatedAt")]
+        [Display("Last updated at")]
         public long LastUpdatedAt { get; set; }
 
         [JsonProperty("status")]
@@ -41,6 +44,7 @@ namespace Apps.Appname.Models
         public string? Visibility { get; set; }
 
         [JsonProperty("ctaSettings")]
+        [Display("CTA settings")]
         public CtaSettings? CtaSettings { get; set; }
     }
 
