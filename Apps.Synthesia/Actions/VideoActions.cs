@@ -135,32 +135,28 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
     [Action("Create video", Description = "Creates a video by your input info")]
     public async Task<CreateVideoResponse> CreateVideo([ActionParameter] CreateVideoRequest request)
     {
-        var clips = new List<object>();
-        var count = request.InputScriptTexts.Count;
-        for (int i = 0; i < count; i++)
-        {
-            clips.Add(new
-            {
-                scriptText = request.InputScriptTexts[i],
-                avatar = request.InputAvatars[i],
-                avatarSettings = new
-                {
-                    horizontalAlign = request.InputAvatarSettingsHorizontalAligns[i],
-                    scale = request.InputAvatarSettingsScales[i],
-                    style = request.InputAvatarSettingsStyles[i],
-                    seamless = request.InputAvatarSettingsSeameless[i]
-                },
-                background = request.InputBackgrounds[i],
-                backgroundSettings = new
-                {
-                    videoSettings = new
-                    {
-                        shortBackgroundContentMatchMode = request.InputBgShortMatchModes[i],
-                        longBackgroundContentMatchMode = request.InputBgLongMatchModes[i]
-                    }
-                }
-            });
-        }
+        var clips = request.InputScriptTexts
+           .Select((scriptText, i) => new
+           {
+               scriptText,
+               avatar = request.InputAvatars.ElementAt(i),
+               avatarSettings = new
+               {
+                   horizontalAlign = request.InputAvatarSettingsHorizontalAligns?.ElementAt(i),
+                   scale = request.InputAvatarSettingsScales?.ElementAt(i),
+                   style = request.InputAvatarSettingsStyles?.ElementAt(i),
+                   seamless = request.InputAvatarSettingsSeameless?.ElementAt(i)
+               },
+               background = request.InputBackgrounds.ElementAt(i),
+               backgroundSettings = new
+               {
+                   videoSettings = new
+                   {
+                       shortBackgroundContentMatchMode = request.InputBgShortMatchModes?.ElementAt(i),
+                       longBackgroundContentMatchMode = request.InputBgLongMatchModes?.ElementAt(i)
+                   }
+               }
+           });
 
         var body = new Dictionary<string, object>
         {
