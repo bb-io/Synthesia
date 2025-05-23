@@ -3,14 +3,15 @@ using Blackbird.Applications.Sdk.Common.Dynamic;
 
 namespace Apps.Synthesia.Handlers.Static
 {
-    internal class CaptionFormatDataHandler : IStaticDataSourceItemHandler
+    internal class AvatarHorizontalAlignDataHandler : IStaticDataSourceItemHandler
     {
         public IEnumerable<DataSourceItem> GetData()
         {
             var conflictBehaviors = new List<DataSourceItem>()
         {
-            new DataSourceItem(".srt", "srt format"),
-            new DataSourceItem(".vtt", "vtt format")
+            new DataSourceItem("left", "Left"),
+            new DataSourceItem("center", "Center"),
+            new DataSourceItem("right", "Right")
         };
             return conflictBehaviors;
         }

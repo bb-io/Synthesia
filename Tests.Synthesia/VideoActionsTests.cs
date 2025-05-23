@@ -81,15 +81,11 @@ public class VideoActionsTests : TestBase
 
         var response = await actions.CreateVideo(new CreateVideoRequest
         {
-            InputScriptTexts = new List<string> { "Hello, this is a test!" },
+            Test = true,
+            Title = "Unit Test Video",
+            InputScriptTexts = new List<string> { "Hello, this is a test111!" },
             InputAvatars = new List<string> { "anna_costume1_cameraA" },
-            InputAvatarSettingsHorizontalAligns = new List<string> { "center" },
-            InputAvatarSettingsScales = new List<double> { 1 },
-            InputAvatarSettingsStyles = new List<string> { "rectangular" },
-            InputAvatarSettingsSeameless = new List<bool> { false },
-            InputBackgrounds = new List<string> { "green_screen" },
-            InputBgShortMatchModes = new List<string> { "freeze" },
-            InputBgLongMatchModes = new List<string> { "trim" }
+            InputBackgrounds = new List<string> { "green_screen" }
         });
 
         Assert.IsNotNull(response);
@@ -103,12 +99,7 @@ public class VideoActionsTests : TestBase
         var response = await actions.CreateVideoFromTemplate(new CreateVideoFromTemplateRequest
         {
             TemplateId = "29748e74-ecfc-4a6c-b89d-15f7a7b1395f",
-            TemplateDataKeys = new[] { "newKey" },
-            TemplateDataValues = new[] { "New Value" },
-            Visibility = "private",
-            CallbackId = "unit-test-callback",
-            Title = "Unit Test Video",
-            Description = "Created via unit test",
+            Test = true,
         });
 
         Assert.IsNotNull(response);

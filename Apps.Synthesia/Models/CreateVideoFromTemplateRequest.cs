@@ -14,10 +14,10 @@ namespace Apps.Synthesia.Models
         public string TemplateId { get; set; }
 
         [Display("Template data keys")]
-        public IEnumerable<string> TemplateDataKeys { get; set; }
+        public IEnumerable<string>? TemplateDataKeys { get; set; }
 
         [Display("Template data values")]
-        public IEnumerable<string> TemplateDataValues { get; set; }
+        public IEnumerable<string>? TemplateDataValues { get; set; }
 
         [Display("Visibility")]
         public string? Visibility { get; set; }
