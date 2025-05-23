@@ -5,6 +5,7 @@ using Blackbird.Applications.Sdk.Common.Exceptions;
 using Blackbird.Applications.Sdk.Common.Invocation;
 using Blackbird.Applications.Sdk.Utils.Utilities;
 using Blackbird.Applications.SDK.Extensions.FileManagement.Interfaces;
+using Newtonsoft.Json;
 using RestSharp;
 using System.Text;
 
@@ -135,46 +136,67 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
     [Action("Create video", Description = "Creates a video by your input info")]
     public async Task<CreateVideoResponse> CreateVideo([ActionParameter] CreateVideoRequest request)
     {
-        var clips = request.InputScriptTexts
-           .Select((scriptText, i) => new
-           {
-               scriptText,
-               avatar = request.InputAvatars.ElementAt(i),
-               avatarSettings = new
-               {
-                   horizontalAlign = request.InputAvatarSettingsHorizontalAligns?.ElementAt(i),
-                   scale = request.InputAvatarSettingsScales?.ElementAt(i),
-                   style = request.InputAvatarSettingsStyles?.ElementAt(i),
-                   seamless = request.InputAvatarSettingsSeameless?.ElementAt(i)
-               },
-               background = request.InputBackgrounds.ElementAt(i),
-               backgroundSettings = new
-               {
-                   videoSettings = new
-                   {
-                       shortBackgroundContentMatchMode = request.InputBgShortMatchModes?.ElementAt(i),
-                       longBackgroundContentMatchMode = request.InputBgLongMatchModes?.ElementAt(i)
-                   }
-               }
-           });
+        var clips = request.InputScriptTexts.Select((scriptText, i) =>
+    {
+        var clip = new Dictionary<string, object>
+        {
+            ["scriptText"] = scriptText,
+            ["avatar"] = request.InputAvatars.ElementAt(i),
+            ["background"] = request.InputBackgrounds.ElementAt(i)
+        };
+
+        var avatarSettings = new Dictionary<string, object>();
+        if (request.InputAvatarSettingsHorizontalAligns != null)
+            avatarSettings["horizontalAlign"]
+                = request.InputAvatarSettingsHorizontalAligns.ElementAt(i);
+        if (request.InputAvatarSettingsScales != null)
+            avatarSettings["scale"]
+                = request.InputAvatarSettingsScales.ElementAt(i);
+        if (request.InputAvatarSettingsStyles != null)
+            avatarSettings["style"]
+                = request.InputAvatarSettingsStyles.ElementAt(i);
+        if (request.InputAvatarSettingsSeameless != null)
+            avatarSettings["seamless"]
+                = request.InputAvatarSettingsSeameless.ElementAt(i);
+
+        if (avatarSettings.Count > 0)
+            clip["avatarSettings"] = avatarSettings;
+
+        var bgSettings = new Dictionary<string, object>();
+        if (request.InputBgShortMatchModes != null || request.InputBgLongMatchModes != null)
+        {
+            var videoSettings = new Dictionary<string, object>();
+            if (request.InputBgShortMatchModes != null)
+                videoSettings["shortBackgroundContentMatchMode"]
+                    = request.InputBgShortMatchModes.ElementAt(i);
+            if (request.InputBgLongMatchModes != null)
+                videoSettings["longBackgroundContentMatchMode"]
+                    = request.InputBgLongMatchModes.ElementAt(i);
+
+            if (videoSettings.Count > 0)
+                bgSettings["videoSettings"] = videoSettings;
+        }
+        if (bgSettings.Count > 0)
+            clip["backgroundSettings"] = bgSettings;
+
+        return clip;
+    })
+    .ToList();
 
         var body = new Dictionary<string, object>
         {
             ["test"] = request.Test,
             ["title"] = request.Title ?? "My created video",
+            ["visibility"] = string.IsNullOrWhiteSpace(request.Visibility)? "private": request.Visibility,
+            ["aspectRatio"] = string.IsNullOrWhiteSpace(request.AspectRatio)? "16:9": request.AspectRatio,
             ["input"] = clips
         };
 
         if (!string.IsNullOrWhiteSpace(request.Description))
             body["description"] = request.Description;
-        if (!string.IsNullOrWhiteSpace(request.Visibility))
-            body["visibility"] = request.Visibility;
-        if (!string.IsNullOrWhiteSpace(request.AspectRatio))
-            body["aspectRatio"] = request.AspectRatio;
-
+       
         var restRequest = new RestRequest("videos", Method.Post)
             .AddJsonBody(body);
-
         var response = await Client.ExecuteWithErrorHandling<CreateVideoResponse>(restRequest);
         return response;
     }
@@ -182,11 +204,14 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
 
     [Action("Create video from template", Description = "Creates a video based on a Synthesia template")]
     public async Task<CreateVideoResponse> CreateVideoFromTemplate(
-            [ActionParameter] CreateVideoFromTemplateRequest request
-        )
+            [ActionParameter] CreateVideoFromTemplateRequest request)
     {
-        var keys = request.TemplateDataKeys.ToList();
-        var values = request.TemplateDataValues.ToList();
+        if (request == null)
+            throw new PluginMisconfigurationException("Request cannot be null.");
+
+        var keys = request.TemplateDataKeys?.ToList() ?? new List<string>();
+        var values = request.TemplateDataValues?.ToList() ?? new List<string>();
+
         if (keys.Count != values.Count)
             throw new PluginMisconfigurationException("The number of TemplateDataKeys must match TemplateDataValues.");
 
@@ -194,22 +219,21 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
         for (int i = 0; i < keys.Count; i++)
             templateData[keys[i]] = values[i];
 
-
         var body = new Dictionary<string, object>
         {
             ["test"] = request.Test,
-            ["templateId"] = request.TemplateId,
-            ["templateData"] = templateData
+            ["templateId"] = request.TemplateId ?? throw new PluginMisconfigurationException("Template ID cannot be null."),
+            ["templateData"] = templateData,
+            ["visibility"] = string.IsNullOrWhiteSpace(request.Visibility) ? "private" : request.Visibility,
+            ["title"] = string.IsNullOrWhiteSpace(request.Title) ? "My created video" : request.Title
         };
 
-        if (!string.IsNullOrWhiteSpace(request.Visibility))
-            body["visibility"] = request.Visibility!;
-        if (!string.IsNullOrWhiteSpace(request.CallbackId))
-            body["callbackId"] = request.CallbackId!;
-        if (!string.IsNullOrWhiteSpace(request.Title))
-            body["title"] = request.Title!;
         if (!string.IsNullOrWhiteSpace(request.Description))
-            body["description"] = request.Description!;
+            body["description"] = request.Description;
+
+        if (!string.IsNullOrWhiteSpace(request.CallbackId))
+            body["callbackId"] = request.CallbackId;
+
         if (!string.IsNullOrWhiteSpace(request.CtaLabel) &&
             !string.IsNullOrWhiteSpace(request.CtaUrl))
         {

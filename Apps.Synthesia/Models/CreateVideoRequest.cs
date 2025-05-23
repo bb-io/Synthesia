@@ -1,4 +1,6 @@
-﻿using Blackbird.Applications.Sdk.Common;
+﻿using Apps.Synthesia.Handlers.Static;
+using Blackbird.Applications.Sdk.Common;
+using Blackbird.Applications.Sdk.Common.Dictionaries;
 
 namespace Apps.Synthesia.Models
 {
@@ -11,12 +13,14 @@ namespace Apps.Synthesia.Models
         public string Title { get; set; }
 
         [Display("Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Display("Visibility")]
+        [StaticDataSource(typeof(VisibilityDataHandler))]
         public string? Visibility { get; set; }
 
         [Display("Aspect ratio")]
+        [StaticDataSource(typeof(AspectRatioDataHandler))]
         public string? AspectRatio { get; set; }
 
         [Display("Script texts")]
@@ -26,6 +30,7 @@ namespace Apps.Synthesia.Models
         public IEnumerable<string> InputAvatars { get; set; }
 
         [Display("Avatar horizontal aligns")]
+        [StaticDataSource(typeof(AvatarHorizontalAlignDataHandler))]
         public IEnumerable<string>? InputAvatarSettingsHorizontalAligns { get; set; }
 
         [Display("Avatar scales")]
