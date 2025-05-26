@@ -28,7 +28,7 @@ namespace Apps.Synthesia.Models
         public IEnumerable<string> InputScriptTexts { get; set; }
 
         [Display("Avatars")]
-        [DataSource(typeof(AvatarDataHandler))]
+        [StaticDataSource(typeof(AvatarDataHandler))]
         public IEnumerable<string>? InputAvatars { get; set; }
 
         [Display("Avatar horizontal aligns")]
