@@ -3,7 +3,7 @@ using Blackbird.Applications.Sdk.Common.Dynamic;
 
 namespace Apps.Synthesia.Handlers.Static
 {
-    internal class VisibilityDataHandler : IStaticDataSourceItemHandler
+    public class VisibilityDataHandler : IStaticDataSourceItemHandler
     {
         public IEnumerable<DataSourceItem> GetData()
         {

@@ -3,7 +3,7 @@ using Blackbird.Applications.Sdk.Common.Dynamic;
 
 namespace Apps.Synthesia.Handlers.Static
 {
-    internal class AvatarHorizontalAlignDataHandler : IStaticDataSourceItemHandler
+    public class AvatarHorizontalAlignDataHandler : IStaticDataSourceItemHandler
     {
         public IEnumerable<DataSourceItem> GetData()
         {

@@ -1,13 +1,14 @@
 ﻿using Apps.Synthesia.Handlers.Static;
 using Blackbird.Applications.Sdk.Common;
 using Blackbird.Applications.Sdk.Common.Dictionaries;
+using Blackbird.Applications.Sdk.Common.Dynamic;
 
 namespace Apps.Synthesia.Models
 {
     public class CreateVideoRequest
     {
         [Display("Test video")]
-        public bool Test { get; set; }
+        public bool? Test { get; set; }
 
         [Display("Title")]
         public string Title { get; set; }
@@ -27,7 +28,8 @@ namespace Apps.Synthesia.Models
         public IEnumerable<string> InputScriptTexts { get; set; }
 
         [Display("Avatars")]
-        public IEnumerable<string> InputAvatars { get; set; }
+        [DataSource(typeof(AvatarDataHandler))]
+        public IEnumerable<string>? InputAvatars { get; set; }
 
         [Display("Avatar horizontal aligns")]
         [StaticDataSource(typeof(AvatarHorizontalAlignDataHandler))]
@@ -43,7 +45,7 @@ namespace Apps.Synthesia.Models
         public IEnumerable<bool>? InputAvatarSettingsSeameless { get; set; }
 
         [Display("Backgrounds")]
-        public IEnumerable<string> InputBackgrounds { get; set; }
+        public IEnumerable<string>? InputBackgrounds { get; set; }
 
         [Display("Short background content match modes")]
         public IEnumerable<string>? InputBgShortMatchModes { get; set; }

@@ -7,7 +7,7 @@ namespace Apps.Synthesia.Models
     public class CreateVideoFromTemplateRequest
     {
         [Display("Test video")]
-        public bool Test { get; set; }
+        public bool? Test { get; set; }
 
         [Display("Template ID")]
         [DataSource(typeof(TemplateDataHandler))]

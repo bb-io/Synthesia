@@ -3,7 +3,7 @@ using Blackbird.Applications.Sdk.Common.Dynamic;
 
 namespace Apps.Synthesia.Handlers.Static
 {
-    internal class CaptionFormatDataHandler : IStaticDataSourceItemHandler
+    public class CaptionFormatDataHandler : IStaticDataSourceItemHandler
     {
         public IEnumerable<DataSourceItem> GetData()
         {

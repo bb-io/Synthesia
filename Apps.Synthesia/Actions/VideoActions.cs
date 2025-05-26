@@ -141,8 +141,8 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
         var clip = new Dictionary<string, object>
         {
             ["scriptText"] = scriptText,
-            ["avatar"] = request.InputAvatars.ElementAt(i),
-            ["background"] = request.InputBackgrounds.ElementAt(i)
+            ["avatar"] = request.InputAvatars.ElementAt(i) ?? "anna_costume1_cameraA",
+            ["background"] = request.InputBackgrounds.ElementAt(i) ?? "off_white"
         };
 
         var avatarSettings = new Dictionary<string, object>();
@@ -185,7 +185,7 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
 
         var body = new Dictionary<string, object>
         {
-            ["test"] = request.Test,
+            ["test"] = request.Test ?? true,
             ["title"] = request.Title ?? "My created video",
             ["visibility"] = string.IsNullOrWhiteSpace(request.Visibility)? "private": request.Visibility,
             ["aspectRatio"] = string.IsNullOrWhiteSpace(request.AspectRatio)? "16:9": request.AspectRatio,
@@ -221,7 +221,7 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
 
         var body = new Dictionary<string, object>
         {
-            ["test"] = request.Test,
+            ["test"] = request.Test ?? true,
             ["templateId"] = request.TemplateId ?? throw new PluginMisconfigurationException("Template ID cannot be null."),
             ["templateData"] = templateData,
             ["visibility"] = string.IsNullOrWhiteSpace(request.Visibility) ? "private" : request.Visibility,
