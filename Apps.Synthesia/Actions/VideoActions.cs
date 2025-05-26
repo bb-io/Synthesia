@@ -136,13 +136,19 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
     [Action("Create video", Description = "Creates a video by your input info")]
     public async Task<CreateVideoResponse> CreateVideo([ActionParameter] CreateVideoRequest request)
     {
+
+        if (request.InputScriptTexts == null || !request.InputScriptTexts.Any())
+        {
+            throw new PluginMisconfigurationException("Script texts cannot be null or empty. Please check your input and try again");
+        }
+
         var clips = request.InputScriptTexts.Select((scriptText, i) =>
     {
         var clip = new Dictionary<string, object>
         {
             ["scriptText"] = scriptText,
-            ["avatar"] = request.InputAvatars.ElementAt(i) ?? "anna_costume1_cameraA",
-            ["background"] = request.InputBackgrounds.ElementAt(i) ?? "off_white"
+            ["avatar"] = request.InputAvatars?.ElementAtOrDefault(i) ?? "anna_costume1_cameraA",
+            ["background"] = request.InputBackgrounds?.ElementAtOrDefault(i) ?? "off_white"
         };
 
         var avatarSettings = new Dictionary<string, object>();

@@ -82,7 +82,7 @@ public class VideoActionsTests : TestBase
         var response = await actions.CreateVideo(new CreateVideoRequest
         {
             Title = "Unit Test Video with minimum inputs",
-            InputScriptTexts = new List<string> { "Hello, this is a test with minimum inputs!" },
+            InputScriptTexts = new List<string> { "Hello, this is a test with minimum inputs!", "Hello 2, this is a test with minimum inputs!" },
         });
 
         Assert.IsNotNull(response);
