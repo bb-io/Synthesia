@@ -45,6 +45,7 @@ namespace Apps.Synthesia.Models
         public IEnumerable<bool>? InputAvatarSettingsSeameless { get; set; }
 
         [Display("Backgrounds")]
+        [StaticDataSource(typeof(BackgroundDataHandler))]
         public IEnumerable<string>? InputBackgrounds { get; set; }
 
         [Display("Short background content match modes")]
