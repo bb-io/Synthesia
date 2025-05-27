@@ -41,7 +41,7 @@ public class VideoActionsTests : TestBase
     {
         var actions = new VideoActions(InvocationContext, FileManager);
 
-        var response = await actions.DownloadVideo(new SearchXliffVideoRequest { VideoId = "3df96ea1-dc28-45c5-a0e2-e946ce133e18" });
+        var response = await actions.DownloadVideo(new SearchXliffVideoRequest { VideoId = "978b4326-1b7b-4001-8413-f542cb9ad9c7" });
 
         Assert.IsNotNull(response);
     }
