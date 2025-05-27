@@ -22,12 +22,7 @@ namespace Apps.Synthesia.Webhooks
             if (!string.IsNullOrWhiteSpace(input?.VideoId)
         && !string.Equals(result.Data.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
             {
-                return Task.FromResult(new WebhookResponse<VideoCompletedPayload>
-                {
-                    HttpResponseMessage = null,
-                    Result = null!,
-                    ReceivedWebhookRequestType = WebhookRequestType.Default
-                });
+                return Task.FromResult(PreflightResponse<VideoCompletedPayload>());
             }
 
             return Task.FromResult(new WebhookResponse<VideoCompletedPayload>
@@ -51,6 +46,16 @@ namespace Apps.Synthesia.Webhooks
                 Result = result,
                 ReceivedWebhookRequestType = WebhookRequestType.Default
             });
+        }
+
+        private static WebhookResponse<T> PreflightResponse<T>()
+        where T : class
+        {
+            return new WebhookResponse<T>
+            {
+                ReceivedWebhookRequestType = WebhookRequestType.Preflight,
+                Result = null
+            };
         }
     }
 }
