@@ -20,13 +20,6 @@ public class SynthesiaClient : BlackBirdRestClient
         this.AddDefaultHeader("Authorization", creds.Get(CredsNames.Token).Value);
     }
 
-    //protected override Exception ConfigureErrorException(RestResponse response)
-    //{
-    //    var error = JsonConvert.DeserializeObject(response.Content);
-
-    //    throw new PluginApplicationException(error.ToString());
-    //}
-
     protected override Exception ConfigureErrorException(RestResponse response)
     {
 

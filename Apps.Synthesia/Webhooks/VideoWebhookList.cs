@@ -32,11 +32,17 @@ namespace Apps.Synthesia.Webhooks
         }
 
         [Webhook("On video failed", typeof(VideoFailedHandler), Description = "On any video failed")]
-        public Task<WebhookResponse<VideoFailedPayload>> OnVideoFailed(WebhookRequest webhookRequest)
+        public Task<WebhookResponse<VideoFailedPayload>> OnVideoFailed(WebhookRequest webhookRequest,
+            [WebhookParameter] VideoOptionFilter input)
         {
             var payload = webhookRequest.Body.ToString();
             ArgumentException.ThrowIfNullOrEmpty(payload, nameof(webhookRequest.Body));
             var result = JsonConvert.DeserializeObject<VideoFailedPayload>(payload);
+
+            if (!string.IsNullOrWhiteSpace(input?.VideoId) && !string.Equals(result.Data.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
+            {
+                return Task.FromResult(PreflightResponse<VideoFailedPayload>());
+            }
 
             return Task.FromResult(new WebhookResponse<VideoFailedPayload>
             {
