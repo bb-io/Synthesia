@@ -1,4 +1,5 @@
 using Apps.Synthesia.Models;
+using Apps.Synthesia.Utils;
 using Blackbird.Applications.Sdk.Common;
 using Blackbird.Applications.Sdk.Common.Actions;
 using Blackbird.Applications.Sdk.Common.Exceptions;
@@ -61,7 +62,7 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
 
         var video = await Client.ExecuteWithErrorHandling<Video>(restRequest);
 
-        var fileContent = await FileDownloader.DownloadFileBytes(video.Download);
+        var fileContent = await ErrorHandler.ExecuteWithErrorHandlingAsync(() => FileDownloader.DownloadFileBytes(video.Download));
 
         var uri = new Uri(video.Download);
         var ext = Path.GetExtension(uri.AbsolutePath);
@@ -93,7 +94,7 @@ public class VideoActions(InvocationContext invocationContext, IFileManagementCl
         if (string.IsNullOrEmpty(url))
             throw new PluginApplicationException($"No captions available in '{ext}' format for video '{request.VideoId}'.");
 
-        var fileContent = await FileDownloader.DownloadFileBytes(url);
+        var fileContent = await ErrorHandler.ExecuteWithErrorHandlingAsync(() => FileDownloader.DownloadFileBytes(url));
 
         var safeTitle = string.Concat(video.Title.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
         var filename = $"{safeTitle}{ext}";

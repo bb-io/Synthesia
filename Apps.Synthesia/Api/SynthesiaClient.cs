@@ -1,4 +1,5 @@
 using Apps.Synthesia.Constants;
+using Apps.Synthesia.Models;
 using Blackbird.Applications.Sdk.Common.Authentication;
 using Blackbird.Applications.Sdk.Common.Exceptions;
 using Blackbird.Applications.Sdk.Utils.Extensions.Sdk;
@@ -21,9 +22,32 @@ public class SynthesiaClient : BlackBirdRestClient
 
     protected override Exception ConfigureErrorException(RestResponse response)
     {
-        var error = JsonConvert.DeserializeObject(response.Content);
 
-        throw new PluginApplicationException(error.ToString());
+        if (response == null)
+        {
+            return new PluginApplicationException($"Error: {response.ErrorMessage}");
+        }
+
+        if (string.IsNullOrEmpty(response.Content))
+        {
+            return new PluginApplicationException($"Error: {response.ErrorMessage}");
+        }
+
+        var responseContent = response.Content!;
+        try
+        {
+            var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(responseContent, JsonSettings);
+            if (errorResponse?.Error != null)
+            {
+                return new PluginApplicationException($"{errorResponse.Error} - {errorResponse.Context}");
+            }
+        }
+        catch (Exception ex)
+        {
+            return new PluginApplicationException($"Error: {ex.Message}. Raw content: {responseContent}", ex);
+        }
+
+        return new PluginApplicationException($"Error: {responseContent}");
     }
 
     public override async Task<T> ExecuteWithErrorHandling<T>(RestRequest request)

@@ -6,14 +6,14 @@ Blackbird is the new automation backbone for the language technology industry. B
 
 <!-- begin docs -->
 
-Synthesia’s API enables developers to programmatically generate high-quality AI videos—with customizable avatars and synthetic voices—directly from text scripts
+[Synthesia’s](https://www.synthesia.io/) API enables developers to programmatically generate high-quality AI videos—with customizable avatars and synthetic voices—directly from text scripts
 
 ## Create your API key
 
-To use Synthesia API, start by creating your API key:
+To use [Synthesia API](https://docs.synthesia.io/reference/introduction), start by creating your API key:
 
 - Go in the upper right corner of the Synthesia application and click on your account.
-- Select 'Integrations' (You need to have 'Creator' plan)
+- Select 'Integrations' (You need to have 'Creator' plan or above)
 - Click on Add to add a new Synthesia API key.
 - Copy this key thanks to the 3-dot button on the right side of your API key.
 
@@ -33,6 +33,17 @@ To use Synthesia API, start by creating your API key:
 
 - **On video completed** triggers on any video completed
 - **On video failed** triggers on any video failed
+
+
+### Rate limits
+
+| API Tier (Plan)        | Write Operations (per endpoint)                  | Read Operations (per endpoint)     |
+|------------------------|--------------------------------------------------|------------------------------------|
+| Tier 1 (Enterprise)    | `120 req/min | 600 req/hour | 3,000 req/day`     | `120 req/min | 80k req/day`        |
+| Tier 2 (Enterprise)    | `80 req/min | 400 req/hour | 2,000 req/day`      | `80 req/min | 40k req/day`         |
+| Tier 3 (Creator)       | `60 req/min | 300 req/hour | 1,000 req/day`      | `60 req/min | 20k req/day`         |
+
+
 
 ## Feedback
 

@@ -11,8 +11,10 @@ namespace Apps.Synthesia.Webhooks.Base
     {
         protected abstract List<string> SubscriptionEvents { get; }
 
+        private readonly InvocationContext _invocationContext;
         public SynthesiaWebhookHandler(InvocationContext invocationContext) : base(invocationContext)
         {
+            _invocationContext = invocationContext;
         }
 
         public async Task SubscribeAsync(
@@ -33,11 +35,15 @@ namespace Apps.Synthesia.Webhooks.Base
         }
 
         public async Task UnsubscribeAsync(
-            IEnumerable<AuthenticationCredentialsProvider> creds,
-            Dictionary<string, string> values)
+    IEnumerable<AuthenticationCredentialsProvider> creds,
+    Dictionary<string, string> values)
         {
-            var webhooks = await GetAllWebhooks();
-            var webhookToDelete = webhooks.FirstOrDefault(w => w.url == values["payloadUrl"]);
+            var wrapper = await GetAllWebhooks();
+            var payloadUrl = values["payloadUrl"];
+
+            var webhookToDelete = wrapper.Webhooks
+                .FirstOrDefault(w => w.url == payloadUrl);
+
             if (webhookToDelete == null)
                 return;
 
@@ -47,13 +53,13 @@ namespace Apps.Synthesia.Webhooks.Base
             await Client.ExecuteAsync(request);
         }
 
-        private async Task<List<WebhookListResponse>> GetAllWebhooks()
+        private async Task<WebhookListResponse> GetAllWebhooks()
         {
             var request = new RestRequest("/webhooks", Method.Get)
                 .AddHeader("accept", "application/json");
 
             var response = await Client.ExecuteAsync(request);
-            return JsonConvert.DeserializeObject<List<WebhookListResponse>>(response.Content) ?? new List<WebhookListResponse>();
+            return JsonConvert.DeserializeObject<WebhookListResponse>(response.Content) ?? new WebhookListResponse();
         }
     }
 }
