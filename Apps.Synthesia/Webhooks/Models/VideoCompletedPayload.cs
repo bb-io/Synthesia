@@ -9,24 +9,24 @@ namespace Apps.Synthesia.Webhooks.Models
         public VideoData Data { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
     }
 
     public class VideoData
     {
         [JsonProperty("callbackId")]
         [Display("Callback ID")]
-        public string CallbackId { get; set; }
+        public string? CallbackId { get; set; }
 
         [JsonProperty("captions")]
-        public Captions Captions { get; set; }
+        public Captions? Captions { get; set; }
 
         [JsonProperty("createdAt")]
         [Display("Created at")]
         public long CreatedAt { get; set; }
 
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [JsonProperty("download")]
         public string Download { get; set; }
