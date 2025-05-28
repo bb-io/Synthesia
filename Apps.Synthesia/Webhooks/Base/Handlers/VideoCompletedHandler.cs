@@ -17,7 +17,7 @@ namespace Apps.Synthesia.Webhooks.Base.Handlers
                 return null;
 
             var client = new SynthesiaClient(InvocationContext.AuthenticationCredentialsProviders);
-            var request = new RestRequest($"/webhooks/{input}", Method.Get);
+            var request = new RestRequest($"/videos/{input.VideoId}", Method.Get);
             var video = await client.ExecuteWithErrorHandling<VideoDto>(request);
 
             if (video.Status.Equals("complete", StringComparison.OrdinalIgnoreCase))
