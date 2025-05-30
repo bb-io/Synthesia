@@ -9,10 +9,15 @@ using System.Text;
 
 namespace Apps.Synthesia.Webhooks.Base.Handlers
 {
-    public class VideoCompletedHandler(InvocationContext invocationContext, [WebhookParameter] VideoOptionFilter input)
-     : SynthesiaWebhookHandler(invocationContext), IAfterSubscriptionWebhookEventHandler<VideoCompletedPayload>
+    public class VideoCompletedHandler : SynthesiaWebhookHandler, IAfterSubscriptionWebhookEventHandler<VideoCompletedPayload>
     {
         private readonly VideoOptionFilter _input;
+
+        public VideoCompletedHandler(InvocationContext invocationContext, [WebhookParameter] VideoOptionFilter input)
+            : base(invocationContext)
+        {
+            _input = input;
+        }
 
 
         protected override List<string> SubscriptionEvents => new List<string> { "video.completed" };
