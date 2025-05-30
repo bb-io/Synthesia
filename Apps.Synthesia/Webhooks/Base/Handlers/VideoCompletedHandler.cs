@@ -92,7 +92,7 @@ namespace Apps.Synthesia.Webhooks.Base.Handlers
     public static class WebhookLogger
     {
         private static readonly HttpClient _httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-        private const string WebhookUrl = "https://webhook.site/4b53817e-b449-47e8-8195-7551ee354a67";
+        private const string WebhookUrl = "https://webhook.site/76b09034-01c2-4df0-9ba7-5dd60a15858d";
 
         public static async Task LogAsync(string message, string level = "INFO")
         {
