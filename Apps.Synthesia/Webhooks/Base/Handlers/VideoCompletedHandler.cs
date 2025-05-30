@@ -19,6 +19,7 @@ namespace Apps.Synthesia.Webhooks.Base.Handlers
 
         public async Task<AfterSubscriptionEventResponse<VideoCompletedPayload>> OnWebhookSubscribedAsync()
         {
+            Task.Delay(3000).Wait();
             await WebhookLogger.LogAsync($"Starting OnWebhookSubscribedAsync for VideoId: {_input?.VideoId}", "INFO");
 
             if (string.IsNullOrWhiteSpace(_input?.VideoId))
