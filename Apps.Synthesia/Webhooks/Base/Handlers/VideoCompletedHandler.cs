@@ -24,7 +24,6 @@ namespace Apps.Synthesia.Webhooks.Base.Handlers
 
         public async Task<AfterSubscriptionEventResponse<VideoCompletedPayload>> OnWebhookSubscribedAsync()
         {
-            Task.Delay(3000).Wait();
             await WebhookLogger.LogAsync($"Starting OnWebhookSubscribedAsync for VideoId: {_input?.VideoId}", "INFO");
 
             if (string.IsNullOrWhiteSpace(_input?.VideoId))
@@ -92,7 +91,7 @@ namespace Apps.Synthesia.Webhooks.Base.Handlers
     public static class WebhookLogger
     {
         private static readonly HttpClient _httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-        private const string WebhookUrl = "https://webhook.site/76b09034-01c2-4df0-9ba7-5dd60a15858d";
+        private const string WebhookUrl = "https://webhook.site/92d707dd-cbdf-4009-8cc9-9fbfc03624fb";
 
         public static async Task LogAsync(string message, string level = "INFO")
         {

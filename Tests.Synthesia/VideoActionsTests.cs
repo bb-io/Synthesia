@@ -1,6 +1,8 @@
 ﻿using Apps.Synthesia.Actions;
 using Apps.Synthesia.Models;
+using Apps.Synthesia.Webhooks.Base.Handlers;
 using Blackbird.Applications.Sdk.Common.Files;
+using Newtonsoft.Json;
 using Tests.Synthesia.Base;
 
 namespace Tests.Synthesia;
@@ -98,6 +100,19 @@ public class VideoActionsTests : TestBase
             TemplateId = "29748e74-ecfc-4a6c-b89d-15f7a7b1395f",
             Test = true,
         });
+
+        Assert.IsNotNull(response);
+    }
+
+
+    [TestMethod]
+    public async Task WEb()
+    {
+        var actions = new VideoCompletedHandler(InvocationContext, new VideoOptionFilter { VideoId = "ebe741df-d7ed-4001-b705-896fdbe0135d" });
+        var response = await actions.OnWebhookSubscribedAsync();
+
+        string jsonResponse = JsonConvert.SerializeObject(response, Formatting.Indented);
+        Console.WriteLine(jsonResponse);
 
         Assert.IsNotNull(response);
     }
