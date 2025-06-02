@@ -13,7 +13,7 @@ namespace Apps.Synthesia.Webhooks.Base.Handlers
     {
         private readonly VideoOptionFilter _input;
 
-        public VideoCompletedHandler(InvocationContext invocationContext, [WebhookParameter] VideoOptionFilter input)
+        public VideoCompletedHandler(InvocationContext invocationContext, [WebhookParameter(true)] VideoOptionFilter input)
             : base(invocationContext)
         {
             _input = input;
