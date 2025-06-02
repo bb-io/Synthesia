@@ -28,6 +28,7 @@ namespace Apps.Synthesia.Models
         public string Duration { get; set; }
 
         [JsonProperty("id")]
+        [Display("Video ID")]
         public string Id { get; set; }
 
         [JsonProperty("lastUpdatedAt")]
@@ -51,9 +52,11 @@ namespace Apps.Synthesia.Models
     public class Captions
     {
         [JsonProperty("srt")]
+        [Display("SRT")]
         public string? Srt { get; set; }
 
         [JsonProperty("vtt")]
+        [Display("VTT")]
         public string? Vtt { get; set; }
     }
 }
