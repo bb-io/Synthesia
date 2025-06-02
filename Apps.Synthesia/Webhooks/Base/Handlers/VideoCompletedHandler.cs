@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace Apps.Synthesia.Webhooks.Base.Handlers
 {
-    public class VideoCompletedHandler(InvocationContext invocationContext,[WebhookParameter] VideoOptionFilter input)
+    public class VideoCompletedHandler(InvocationContext invocationContext, [WebhookParameter] VideoOptionFilter input)
      : SynthesiaWebhookHandler(invocationContext), IAfterSubscriptionWebhookEventHandler<VideoCompletedPayload>
     {
         protected override List<string> SubscriptionEvents => new List<string> { "video.completed" };
@@ -36,12 +36,12 @@ namespace Apps.Synthesia.Webhooks.Base.Handlers
                         Srt = video.Captions.Srt ?? "",
                         Vtt = video.Captions.Vtt ?? ""
                     },
-                    CreatedAt = video.CreatedAt, 
+                    CreatedAt = video.CreatedAt,
                     Description = video.Description,
                     Download = video.Download,
                     Duration = video.Duration,
                     Id = video.Id,
-                    LastUpdatedAt =video.LastUpdatedAt,
+                    LastUpdatedAt = video.LastUpdatedAt,
                     Status = video.Status,
                     Thumbnail = new Webhooks.Models.Thumbnail
                     {

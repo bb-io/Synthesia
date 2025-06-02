@@ -19,7 +19,7 @@ namespace Apps.Synthesia.Webhooks
             ArgumentException.ThrowIfNullOrEmpty(payload, nameof(webhookRequest.Body));
             var result = JsonConvert.DeserializeObject<VideoCompletedPayload>(payload);
 
-            if (!string.IsNullOrWhiteSpace(input?.VideoId)&& !string.Equals(result.Data.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(input?.VideoId) && !string.Equals(result.Data.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
             {
                 return Task.FromResult(PreflightResponse<VideoCompletedPayload>());
             }
