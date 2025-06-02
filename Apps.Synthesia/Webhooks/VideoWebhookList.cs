@@ -12,51 +12,23 @@ namespace Apps.Synthesia.Webhooks
     public class VideoWebhookList(InvocationContext invocationContext) : BaseInvocable(invocationContext)
     {
         [Webhook("On video completed", typeof(VideoCompletedHandler), Description = "On any video completed")]
-        public async Task<WebhookResponse<VideoCompletedPayload>> OnVideoCompleted(WebhookRequest webhookRequest,
-            [WebhookParameter(true)] VideoOptionFilter input)
+        public Task<WebhookResponse<VideoCompletedPayload>> OnVideoCompleted(WebhookRequest webhookRequest,
+            [WebhookParameter] VideoOptionFilter input)
         {
-            await WebhookLogger.LogAsync($"Received webhook request at {DateTime.UtcNow}", "INFO");
+            var payload = webhookRequest.Body.ToString();
+            ArgumentException.ThrowIfNullOrEmpty(payload, nameof(webhookRequest.Body));
+            var result = JsonConvert.DeserializeObject<VideoCompletedPayload>(payload);
 
-            try
+            if (!string.IsNullOrWhiteSpace(input?.VideoId) && !string.Equals(result.Data.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
             {
-                var payload = webhookRequest.Body.ToString();
-                await WebhookLogger.LogAsync($"Payload received: {payload}", "DEBUG");
-
-                if (string.IsNullOrEmpty(payload))
-                {
-                    await WebhookLogger.LogAsync("Payload is empty or null", "ERROR");
-                    throw new ArgumentException("Webhook payload is empty or null", nameof(webhookRequest.Body));
-                }
-
-                var result = JsonConvert.DeserializeObject<VideoCompletedPayload>(payload);
-                if (result == null)
-                {
-                    await WebhookLogger.LogAsync("Failed to deserialize payload", "ERROR");
-                    return PreflightResponse<VideoCompletedPayload>();
-                }
-
-                await WebhookLogger.LogAsync($"Payload VideoId: {result.Data.Id}, Input VideoId: {input?.VideoId}", "DEBUG");
-
-                if (!string.IsNullOrWhiteSpace(input?.VideoId) &&
-                    !string.Equals(result.Data.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
-                {
-                    await WebhookLogger.LogAsync($"VideoId mismatch. Expected: {input.VideoId}, Received: {result.Data.Id}", "WARNING");
-                    return PreflightResponse<VideoCompletedPayload>();
-                }
-
-                await WebhookLogger.LogAsync("Webhook processed successfully", "INFO");
-                return new WebhookResponse<VideoCompletedPayload>
-                {
-                    HttpResponseMessage = null,
-                    Result = result,
-                    ReceivedWebhookRequestType = WebhookRequestType.Default
-                };
+                return Task.FromResult(PreflightResponse<VideoCompletedPayload>());
             }
-            catch (Exception ex)
+            return Task.FromResult(new WebhookResponse<VideoCompletedPayload>
             {
-                await WebhookLogger.LogAsync($"Error processing webhook: {ex.Message}", "ERROR");
-                return PreflightResponse<VideoCompletedPayload>();
-            }
+                HttpResponseMessage = null,
+                Result = result,
+                ReceivedWebhookRequestType = WebhookRequestType.Default
+            });
         }
 
         [Webhook("On video failed", typeof(VideoFailedHandler), Description = "On any video failed")]

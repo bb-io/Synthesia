@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <Product>Synthesia [Beta]</Product>
         <Description>Enables developers to programmatically generate high-quality AI videos—with customizable avatars and synthetic voices—directly from text scripts</Description>
-        <Version>1.0.7</Version>
+        <Version>1.0.8</Version>
         <AssemblyName>Apps.Synthesia</AssemblyName>
     </PropertyGroup>
 

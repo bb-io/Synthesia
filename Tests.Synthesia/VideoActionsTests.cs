@@ -103,17 +103,4 @@ public class VideoActionsTests : TestBase
 
         Assert.IsNotNull(response);
     }
-
-
-    [TestMethod]
-    public async Task WEb()
-    {
-        var actions = new VideoCompletedHandler(InvocationContext, new VideoOptionFilter { VideoId = "ebe741df-d7ed-4001-b705-896fdbe0135d" });
-        var response = await actions.OnWebhookSubscribedAsync();
-
-        string jsonResponse = JsonConvert.SerializeObject(response, Formatting.Indented);
-        Console.WriteLine(jsonResponse);
-
-        Assert.IsNotNull(response);
-    }
 }
