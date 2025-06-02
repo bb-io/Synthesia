@@ -13,7 +13,7 @@ namespace Apps.Synthesia.Webhooks
     {
         [Webhook("On video completed", typeof(VideoCompletedHandler), Description = "On any video completed")]
         public async Task<WebhookResponse<VideoCompletedPayload>> OnVideoCompleted(WebhookRequest webhookRequest,
-            [WebhookParameter] VideoOptionFilter input)
+            [WebhookParameter(true)] VideoOptionFilter input)
         {
             await WebhookLogger.LogAsync($"Received webhook request at {DateTime.UtcNow}", "INFO");
 
