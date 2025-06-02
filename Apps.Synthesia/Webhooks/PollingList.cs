@@ -13,8 +13,8 @@ namespace Apps.Synthesia.Webhooks
         {
         }
         [PollingEvent("On video completed (Polling)", Description = "Triggers on any video completed")]
-        public async Task<PollingEventResponse<DateMemory, ListWebhookVideosResponse>> OnVideoCompleted(PollingEventRequest<DateMemory> request,
-            [PollingEventParameter] VideoOptionFilter input)
+        public async Task<PollingEventResponse<DateMemory, Video>> OnVideoCompleted(PollingEventRequest<DateMemory> request,
+            [PollingEventParameter] VideoFilter input)
         {
             var allVideos = new List<Video>();
 
@@ -49,27 +49,22 @@ namespace Apps.Synthesia.Webhooks
 
             var completedVideos = allVideos
                 .Where(v => string.Equals(v.Status, "complete", StringComparison.OrdinalIgnoreCase))
+                .Where(v => string.Equals(v.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-
-            if (!string.IsNullOrEmpty(input.VideoId))
-            {
-                completedVideos = completedVideos
-                    .Where(v => string.Equals(v.Id, input.VideoId, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
+                    
 
             if (!completedVideos.Any())
             {
                 if (request.Memory == null)
                 {
-                    return new PollingEventResponse<DateMemory, ListWebhookVideosResponse>
+                    return new PollingEventResponse<DateMemory, Video>
                     {
                         FlyBird = false,
                         Memory = new DateMemory { LastInteractionDate = DateTime.UtcNow }
                     };
                 }
 
-                return new PollingEventResponse<DateMemory, ListWebhookVideosResponse>
+                return new PollingEventResponse<DateMemory, Video>
                 {
                     FlyBird = false,
                     Memory = request.Memory
@@ -89,7 +84,7 @@ namespace Apps.Synthesia.Webhooks
             if (request.Memory == null)
             {
                 var maxDate = withDates.Max(x => x.UpdatedAt);
-                return new PollingEventResponse<DateMemory, ListWebhookVideosResponse>
+                return new PollingEventResponse<DateMemory, Video>
                 {
                     FlyBird = false,
                     Memory = new DateMemory { LastInteractionDate = maxDate }
@@ -100,9 +95,10 @@ namespace Apps.Synthesia.Webhooks
                 .Where(x => x.UpdatedAt > request.Memory.LastInteractionDate)
                 .Select(x => x.Video)
                 .ToList();
+
             if (!newVideos.Any())
             {
-                return new PollingEventResponse<DateMemory, ListWebhookVideosResponse>
+                return new PollingEventResponse<DateMemory, Video>
                 {
                     FlyBird = false,
                     Memory = request.Memory
@@ -112,14 +108,11 @@ namespace Apps.Synthesia.Webhooks
             var newMaxDate = withDates.Max(x => x.UpdatedAt);
             request.Memory.LastInteractionDate = newMaxDate;
 
-            return new PollingEventResponse<DateMemory, ListWebhookVideosResponse>
+            return new PollingEventResponse<DateMemory, Video>
             {
                 FlyBird = true,
                 Memory = request.Memory,
-                Result = new ListWebhookVideosResponse
-                {
-                    Videos = newVideos
-                }
+                Result = newVideos.FirstOrDefault()
             };
         }
     }
