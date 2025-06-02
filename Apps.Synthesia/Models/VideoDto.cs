@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Blackbird.Applications.Sdk.Common;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Apps.Synthesia.Models
@@ -24,6 +25,7 @@ namespace Apps.Synthesia.Models
         public string Duration { get; set; }
 
         [JsonProperty("id")]
+        [Display("Video ID")]
         public string Id { get; set; }
 
         [JsonProperty("lastUpdatedAt")]
