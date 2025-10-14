@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Apps.Synthesia.Actions;
 
-[ActionList]
+[ActionList("Videos")]
 public class VideoActions(InvocationContext invocationContext, IFileManagementClient fileManagementClient) : Invocable(invocationContext)
 {
     [Action("Search videos", Description = "Searches videos")]
