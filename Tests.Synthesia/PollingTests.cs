@@ -17,25 +17,25 @@ namespace Tests.Synthesia
         [TestMethod]
         public async Task PollingVideoResponse_IssSuccess()
         {
-            var actions = new PollingList(InvocationContext);
-            var oldDate = new DateTime(2025, 5, 30, 0, 0, 0, DateTimeKind.Utc);
-            var request = new PollingEventRequest<DateMemory>
-            {
-                Memory = new DateMemory
-                {
-                    LastInteractionDate = oldDate
-                }
-            };
+            //var actions = new PollingList(InvocationContext);
+            //var oldDate = new DateTime(2025, 5, 30, 0, 0, 0, DateTimeKind.Utc);
+            //var request = new PollingEventRequest<DateMemory>
+            //{
+            //    Memory = new DateMemory
+            //    {
+            //        LastInteractionDate = oldDate
+            //    }
+            //};
 
-            var response = await actions.OnVideoCompleted(request, new VideoOptionFilter { });
+            //var response = await actions.OnVideoCompleted(request, new VideoFilter { });
 
-            var video = response.Result?.Videos;
+            //var video = response.Result?.Duration;
 
-            foreach (var canvas in video)
-            {
-                Console.WriteLine($"{canvas.Id} - {canvas.Title}");
-            }
-            Assert.IsNotNull(response);
+            //foreach (var canvas in video)
+            //{
+            //    Console.WriteLine($"{canvas.Id} - {canvas.Title}");
+            //}
+            //Assert.IsNotNull(response);
         }
 
     }

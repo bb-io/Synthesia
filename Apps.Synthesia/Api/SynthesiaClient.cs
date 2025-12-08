@@ -25,12 +25,12 @@ public class SynthesiaClient : BlackBirdRestClient
 
         if (response == null)
         {
-            return new PluginApplicationException($"Error: {response.ErrorMessage}");
+            return new PluginApplicationException($"Status: {response.StatusCode}. Error: {response.ErrorMessage}");
         }
 
         if (string.IsNullOrEmpty(response.Content))
         {
-            return new PluginApplicationException($"Error: {response.ErrorMessage}");
+            return new PluginApplicationException($"Status: {response.StatusCode}. Error: {response.ErrorMessage}");
         }
 
         var responseContent = response.Content!;
@@ -44,10 +44,10 @@ public class SynthesiaClient : BlackBirdRestClient
         }
         catch (Exception ex)
         {
-            return new PluginApplicationException($"Error: {ex.Message}. Raw content: {responseContent}", ex);
+            return new PluginApplicationException($"Status: {response.StatusCode}. {"Error"+" "+ex.Message}. Raw content: {responseContent}", ex);
         }
 
-        return new PluginApplicationException($"Error: {responseContent}");
+        return new PluginApplicationException($"Status: {response.StatusCode}. Error: {responseContent}");
     }
 
     public override async Task<T> ExecuteWithErrorHandling<T>(RestRequest request)
@@ -62,4 +62,15 @@ public class SynthesiaClient : BlackBirdRestClient
         return val;
     }
 
+
+    public override async Task<RestResponse> ExecuteWithErrorHandling(RestRequest request)
+    {
+        RestResponse restResponse = await ExecuteAsync(request);
+        if (!restResponse.IsSuccessStatusCode)
+        {
+            throw ConfigureErrorException(restResponse);
+        }
+
+        return restResponse;
+    }
 }

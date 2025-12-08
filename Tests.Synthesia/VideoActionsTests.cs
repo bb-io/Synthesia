@@ -32,7 +32,7 @@ public class VideoActionsTests : TestBase
     {
         var actions = new VideoActions(InvocationContext, FileManager);
 
-        var response = await actions.GetVideoXliff(new SearchXliffVideoRequest { VideoId = "3df96ea1-dc28-45c5-a0e2-e946ce133e18" });
+        var response = await actions.GetVideoXliff(new SearchXliffVideoRequest { VideoId = "f085defd-6de3-4228-96d4-a2faff9e2541" });
 
         Assert.IsNotNull(response);
     }
