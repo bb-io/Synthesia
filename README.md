@@ -6,7 +6,7 @@ Blackbird is the new automation backbone for the language technology industry. B
 
 <!-- begin docs -->
 
-[Synthesia’s](https://www.synthesia.io/) API enables developers to programmatically generate high-quality AI videos—with customizable avatars and synthetic voices—directly from text scripts
+[Synthesia's](https://www.synthesia.io/) API enables developers to programmatically generate high-quality AI videos with customizable avatars and synthetic voices directly from text scripts
 
 ## Create your API key
 
