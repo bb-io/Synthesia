@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <Product>Synthesia</Product>
         <Description>Enables developers to programmatically generate high-quality AI videos—with customizable avatars and synthetic voices—directly from text scripts</Description>
-        <Version>1.0.12</Version>
+        <Version>1.0.13</Version>
         <AssemblyName>Apps.Synthesia</AssemblyName>
     </PropertyGroup>
 
@@ -19,4 +19,7 @@
         <PackageReference Include="Blackbird.Applications.Sdk.Utils" Version="1.0.25" />
     </ItemGroup>
 
+    <ItemGroup>
+        <EmbeddedResource Include="..\README.md" Link="README.md" CopyToOutputDirectory="Always" />
+    </ItemGroup>
 </Project>
